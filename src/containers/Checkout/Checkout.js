@@ -4,17 +4,32 @@ import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSumm
 
 class Checkout extends Component {
   state = {
-    ingredients: {
-      salad: 1,
-      meat: 1,
-      cheese: 1,
-      bacon: 1,
-    },
+    ingredients: {},
   };
+
+  componentDidMount = () => {
+    console.log(this.props);
+    let query = new URLSearchParams(this.props.location.search);
+    let ingredients = JSON.parse(query.get("ingredients"));
+    this.setState({ ingredients });
+  };
+
+  checkoutContinueHandler = () => {
+    this.props.history.push("/checkout/contact-data");
+  };
+
+  checkoutCancelHandler = () => {
+    this.props.history.goBack();
+  };
+
   render() {
     return (
       <div>
-        <CheckoutSummary ingredients={this.state.ingredients}></CheckoutSummary>
+        <CheckoutSummary
+          checkoutCancelled={this.checkoutCancelHandler}
+          checkoutContinue={this.checkoutContinueHandler}
+          ingredients={this.state.ingredients}
+        ></CheckoutSummary>
       </div>
     );
   }

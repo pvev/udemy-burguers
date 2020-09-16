@@ -9,14 +9,62 @@ import Input from "../../../components/UI/Forms/Input";
 
 class ContactData extends Component {
   state = {
-    name: "",
-    email: "",
-    address: {
-      street: "",
-      postalCode: "",
+    orderForm: {
+      name: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Name",
+        },
+        value: "",
+      },
+      email: {
+        elementType: "input",
+        elementConfig: {
+          type: "email",
+          placeholder: "Email",
+        },
+        value: "",
+      },
+      street: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Street",
+        },
+        value: "",
+      },
+      postalCode: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Postal Code",
+        },
+        value: "",
+      },
+      country: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Country",
+        },
+        value: "",
+      },
+      deliveryMethod: {
+        elementType: "select",
+        elementConfig: {
+          options: [
+            { value: "fastest", displayValue: "Fastest" },
+            { value: "cheapest", displayValue: "Cheapest" },
+          ],
+        },
+        value: "",
+      },
     },
     loading: false,
   };
+
+  generateItemForForm = (item) => {};
 
   orderHandler = () => {
     this.setState({ loading: true });
@@ -48,34 +96,11 @@ class ContactData extends Component {
   render() {
     let form = (
       <form action="" className={classes.Form}>
-        <Input
-          inputtype="input"
-          className={classes.Input}
-          name="name"
-          placeholder="Your Name"
-          type="text"
-        />
-        <Input
-          inputtype="input"
-          className={classes.Input}
-          name="email"
-          placeholder="Your Email"
-          type="email"
-        />
-        <Input
-          inputtype="input"
-          className={classes.Input}
-          name="street"
-          placeholder="Your Street"
-          type="text"
-        />
-        <Input
-          inputtype="input"
-          className={classes.Input}
-          name="postal"
-          placeholder="Your Postal"
-          type="text"
-        />
+        {Object.keys(this.state.orderForm).map((key, i) => {
+          let currObj = this.state.orderForm[key];
+          return <Input {...currObj} key={key + i}></Input>;
+        })}
+
         <Button clicked={this.orderHandler} btnType="Success">
           SEND
         </Button>

@@ -64,8 +64,6 @@ class ContactData extends Component {
     loading: false,
   };
 
-  generateItemForForm = (item) => {};
-
   orderHandler = () => {
     this.setState({ loading: true });
     const order = {
@@ -93,12 +91,27 @@ class ContactData extends Component {
       });
   };
 
+  changeHandler = (event, inputIdentifier) => {
+    console.log(event.target.value);
+    const newStateOrderForm = { ...this.state.orderForm };
+    const updatedFormElement = { ...newStateOrderForm[inputIdentifier] };
+    updatedFormElement.value = event.target.value;
+    newStateOrderForm[inputIdentifier] = updatedFormElement;
+    this.setState({ orderForm: newStateOrderForm });
+  };
+
   render() {
     let form = (
       <form action="" className={classes.Form}>
         {Object.keys(this.state.orderForm).map((key, i) => {
           let currObj = this.state.orderForm[key];
-          return <Input {...currObj} key={key + i}></Input>;
+          return (
+            <Input
+              {...currObj}
+              key={key + i}
+              change={(e) => this.changeHandler(e, key)}
+            ></Input>
+          );
         })}
 
         <Button clicked={this.orderHandler} btnType="Success">

@@ -24,9 +24,10 @@ class Orders extends Component {
           Object.keys(res.data).map((key) => {
             return { ...res.data[key], id: key };
           });
-        if (fetchedOrders.length > 0) {
-          this.setState({ orders: fetchedOrders, loading: false });
+        if (fetchedOrders && fetchedOrders.length > 0) {
+          this.setState({ orders: fetchedOrders });
         }
+        this.setState({ loading: false });
       })
       .catch((error) => {
         console.log(error);

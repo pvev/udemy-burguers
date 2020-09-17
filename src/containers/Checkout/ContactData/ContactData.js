@@ -58,27 +58,28 @@ class ContactData extends Component {
             { value: "cheapest", displayValue: "Cheapest" },
           ],
         },
-        value: "",
+        value: "fastest",
       },
     },
     loading: false,
   };
 
-  orderHandler = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
     this.setState({ loading: true });
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
       customer: {
-        name: "Pablo Velez",
+        name: this.state.orderForm.name.value,
         addres: {
-          street: "Test street",
-          zipCode: "345rwe",
-          country: "Spain",
+          street: this.state.orderForm.street.value,
+          zipCode: this.state.orderForm.postalCode.value,
+          country: this.state.orderForm.country.value,
         },
-        email: "pablo@genesis.com",
+        email: this.state.orderForm.email.value,
       },
-      deliveryMethod: "fastests",
+      deliveryMethod: this.state.orderForm.deliveryMethod.value,
     };
     axios
       .post("/orders.json", order)
@@ -102,7 +103,7 @@ class ContactData extends Component {
 
   render() {
     let form = (
-      <form action="" className={classes.Form}>
+      <form className={classes.Form} onSubmit={this.handleSubmit}>
         {Object.keys(this.state.orderForm).map((key, i) => {
           let currObj = this.state.orderForm[key];
           return (
@@ -114,7 +115,7 @@ class ContactData extends Component {
           );
         })}
 
-        <Button clicked={this.orderHandler} btnType="Success">
+        <Button btnType="Success" type="submit">
           SEND
         </Button>
       </form>

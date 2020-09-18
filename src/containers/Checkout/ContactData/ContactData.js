@@ -19,9 +19,10 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          valid: false,
+          touched: false,
+          errorMessage: "Please, enter a valid Name",
         },
-        valid: false,
-        touched: false,
       },
       email: {
         elementType: "input",
@@ -32,9 +33,11 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          valid: false,
+          touched: false,
+          errorMessage:
+            "Please, enter a valid Email in the format name@domain.xyz",
         },
-        valid: false,
-        touched: false,
       },
       street: {
         elementType: "input",
@@ -45,9 +48,10 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          valid: false,
+          touched: false,
+          errorMessage: "Please, enter a valid Street",
         },
-        valid: false,
-        touched: false,
       },
       postalCode: {
         elementType: "input",
@@ -58,11 +62,12 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          valid: false,
+          touched: false,
+          errorMessage: "Please, enter a valid Postal",
           minLength: 5,
-          maxLength: 7,
+          maxLength: 5,
         },
-        valid: false,
-        touched: false,
       },
       country: {
         elementType: "input",
@@ -73,9 +78,10 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          valid: false,
+          touched: false,
+          errorMessage: "Please, enter a valid Country",
         },
-        valid: false,
-        touched: false,
       },
       deliveryMethod: {
         elementType: "select",
@@ -140,9 +146,9 @@ class ContactData extends Component {
     const newStateOrderForm = { ...this.state.orderForm };
     const updatedFormElement = { ...newStateOrderForm[inputIdentifier] };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.touched = true;
+    updatedFormElement.validation.touched = true;
 
-    updatedFormElement.valid = this.checkValidity(
+    updatedFormElement.validation.valid = this.checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation
     );

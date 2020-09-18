@@ -7,9 +7,14 @@ const Input = (props) => {
   let labelElement = null;
 
   const classList = [classes.InputElement];
-
-  if (props.validation && props.touched && !props.valid) {
+  let errorMessage = null;
+  if (props.validation && props.validation.touched && !props.validation.valid) {
     classList.push(classes.Invalid);
+    errorMessage = (
+      <span className={classes.ValidationError}>
+        {props.validation.errorMessage}
+      </span>
+    );
   }
 
   switch (props.elementType) {
@@ -70,6 +75,7 @@ const Input = (props) => {
     <div className={classes.InputDiv}>
       {labelElement}
       {inputElement}
+      {errorMessage}
     </div>
   );
 };

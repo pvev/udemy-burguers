@@ -6,34 +6,42 @@ const Input = (props) => {
   let inputElement = null;
   let labelElement = null;
 
+  const classList = [classes.InputElement];
+
+  if (props.validation && props.touched && !props.valid) {
+    classList.push(classes.Invalid);
+  }
+
   switch (props.elementType) {
     case "input":
       inputElement = (
         <input
           onChange={props.change}
           {...props.elementConfig}
-          className={classes.InputElement}
+          className={classList.join(" ")}
           value={props.value}
         />
       );
       break;
 
     case "textarea":
+      classList.push(classes.TextAreaElement);
       inputElement = (
         <textarea
           onChange={props.change}
           {...props}
-          className={classes.textAreaElement}
+          className={classList.join(" ")}
           value={props.value}
         />
       );
       break;
 
     case "select":
+      classList.push(classes.SelectElement);
       inputElement = (
         <select
           value={props.value}
-          className={classes.Select}
+          className={classList.join(" ")}
           onChange={props.change}
         >
           {props.elementConfig.options &&

@@ -21,6 +21,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        touched: false,
       },
       email: {
         elementType: "input",
@@ -33,6 +34,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        touched: false,
       },
       street: {
         elementType: "input",
@@ -45,6 +47,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        touched: false,
       },
       postalCode: {
         elementType: "input",
@@ -59,6 +62,7 @@ class ContactData extends Component {
           maxLength: 7,
         },
         valid: false,
+        touched: false,
       },
       country: {
         elementType: "input",
@@ -71,6 +75,7 @@ class ContactData extends Component {
           required: true,
         },
         valid: false,
+        touched: false,
       },
       deliveryMethod: {
         elementType: "select",
@@ -135,6 +140,7 @@ class ContactData extends Component {
     const newStateOrderForm = { ...this.state.orderForm };
     const updatedFormElement = { ...newStateOrderForm[inputIdentifier] };
     updatedFormElement.value = event.target.value;
+    updatedFormElement.touched = true;
 
     updatedFormElement.valid = this.checkValidity(
       updatedFormElement.value,

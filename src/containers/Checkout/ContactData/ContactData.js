@@ -17,6 +17,10 @@ class ContactData extends Component {
           placeholder: "Name",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       email: {
         elementType: "input",
@@ -25,6 +29,10 @@ class ContactData extends Component {
           placeholder: "Email",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       street: {
         elementType: "input",
@@ -33,6 +41,10 @@ class ContactData extends Component {
           placeholder: "Street",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       postalCode: {
         elementType: "input",
@@ -41,6 +53,12 @@ class ContactData extends Component {
           placeholder: "Postal Code",
         },
         value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 7,
+        },
+        valid: false,
       },
       country: {
         elementType: "input",
@@ -49,6 +67,10 @@ class ContactData extends Component {
           placeholder: "Country",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       deliveryMethod: {
         elementType: "select",
@@ -92,11 +114,32 @@ class ContactData extends Component {
       });
   };
 
+  checkValidity = (value, rules) => {
+    let isValid = true;
+    if (rules.required) {
+      isValid = value.trim() !== "" && isValid;
+    }
+
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+    }
+
+    if (rules.maxLength) {
+      isValid = value.length <= rules.maxLength && isValid;
+    }
+
+    return isValid;
+  };
+
   changeHandler = (event, inputIdentifier) => {
-    console.log(event.target.value);
     const newStateOrderForm = { ...this.state.orderForm };
     const updatedFormElement = { ...newStateOrderForm[inputIdentifier] };
     updatedFormElement.value = event.target.value;
+
+    updatedFormElement.valid = this.checkValidity(
+      updatedFormElement.value,
+      updatedFormElement.validation
+    );
     newStateOrderForm[inputIdentifier] = updatedFormElement;
     this.setState({ orderForm: newStateOrderForm });
   };

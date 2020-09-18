@@ -92,9 +92,16 @@ class ContactData extends Component {
           ],
         },
         value: "fastest",
+        validation: {
+          required: false,
+          valid: true,
+          touched: false,
+          errorMessage: "",
+        },
       },
     },
     loading: false,
+    formValid: false,
   };
 
   handleSubmit = (event) => {
@@ -152,8 +159,13 @@ class ContactData extends Component {
       updatedFormElement.value,
       updatedFormElement.validation
     );
+    // verify the validity of the whole form
+    let formValidty = Object.keys(this.state.orderForm).every((key) => {
+      return this.state.orderForm[key].validation.valid;
+    });
+
     newStateOrderForm[inputIdentifier] = updatedFormElement;
-    this.setState({ orderForm: newStateOrderForm });
+    this.setState({ orderForm: newStateOrderForm, formValid: formValidty });
   };
 
   render() {
@@ -170,7 +182,11 @@ class ContactData extends Component {
           );
         })}
 
-        <Button btnType="Success" type="submit">
+        <Button
+          btnType="Success"
+          type="submit"
+          disabled={!this.state.formValid}
+        >
           SEND
         </Button>
       </form>

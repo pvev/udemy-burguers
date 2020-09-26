@@ -11,17 +11,8 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions";
 
-// const INGREDIENT_PRICES = {
-//   salad: 0.5,
-//   bacon: 0.7,
-//   cheese: 1,
-//   meat: 1.3,
-// };
-
 class BurgerBuilder extends Component {
   state = {
-    ingredients: null,
-    totalPrice: 4,
     purchasable: false,
     purchasing: false,
     loading: false,
@@ -38,29 +29,6 @@ class BurgerBuilder extends Component {
     //     console.log(error);
     //     this.setState({ error: true });
     //   });
-  };
-
-  addIngredientsHandler = (type) => {
-    // const updatedIngredients = {
-    //   ...this.state.ingredients,
-    // };
-    // updatedIngredients[type] = this.state.ingredients[type] + 1;
-    // const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
-    // this.setState({ ingredients: updatedIngredients, totalPrice: newPrice });
-    // this.updatePurchaseState(updatedIngredients);
-  };
-
-  removeIngredientsHandler = (type) => {
-    // if (this.state.ingredients[type] === 0) {
-    //   return;
-    // }
-    // const updatedIngredients = {
-    //   ...this.state.ingredients,
-    // };
-    // updatedIngredients[type] = this.state.ingredients[type] - 1;
-    // const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
-    // this.setState({ ingredients: updatedIngredients, totalPrice: newPrice });
-    // this.updatePurchaseState(updatedIngredients);
   };
 
   updatePurchaseState = (ingredients) => {

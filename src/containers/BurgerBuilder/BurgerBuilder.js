@@ -9,7 +9,12 @@ import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions/actions";
+import * as actionTypes from "../../store/actions/actionTypes";
+
+import {
+  addIngredient,
+  removeIngredient,
+} from "../../store/actions/burgerBuilder";
 
 class BurgerBuilder extends Component {
   state = {
@@ -120,15 +125,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingredientType) =>
-      dispatch({
-        type: actionTypes.ADD_INGREDIENT,
-        ingredientType: ingredientType,
-      }),
+      dispatch(addIngredient(ingredientType)),
     onIngredientRemoved: (ingredientType) =>
-      dispatch({
-        type: actionTypes.REMOVE_INGREDIENT,
-        ingredientType: ingredientType,
-      }),
+      dispatch(removeIngredient(ingredientType)),
   };
 };
 

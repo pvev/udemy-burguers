@@ -9,26 +9,20 @@ import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 import { connect } from "react-redux";
-import { addIngredient, removeIngredient } from "../../store/actions/index";
+import {
+  addIngredient,
+  removeIngredient,
+  loadIngredients,
+} from "../../store/actions/index";
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
     loading: false,
-    error: false,
   };
 
   componentDidMount = () => {
-    axios
-      .get("https://react-my-burger-1740b.firebaseio.com/ingredients.json")
-      .then((results) => {
-        // this.setState({ ingredients: results.data });
-        this.props.onIngredientsLoaded(results.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({ error: true });
-      });
+    this.props.onLoadIngredients();
   };
 
   isPurchasable = (ingredients) => {
@@ -71,7 +65,11 @@ class BurgerBuilder extends Component {
     }
     let orderSummary = null;
 
-    let burger = this.state.error ? "Failed to load ingredients!" : <Spinner />;
+    let burger = this.props.errorLoadingIngredients ? (
+      "Failed to load ingredients!"
+    ) : (
+      <Spinner />
+    );
 
     if (this.props.ingredients) {
       burger = (
@@ -115,7 +113,11 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ingredients: state.ingredients, totalPrice: state.totalPrice };
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+    errorLoadingIngredients: state.errorLoadingIngredients,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -124,8 +126,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addIngredient(ingredientType)),
     onIngredientRemoved: (ingredientType) =>
       dispatch(removeIngredient(ingredientType)),
-    onIngredientsLoaded: (ing) =>
-      dispatch({ type: "LOAD_INGREDIENTS", ingredients: ing }),
+    onLoadIngredients: () => dispatch(loadIngredients()),
   };
 };
 

@@ -1,13 +1,9 @@
 import * as actionTypes from "../actions/actionTypes.js";
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0,
-  },
+  ingredients: null,
   totalPrice: 4,
+  errorLoadingIngredients: false,
 };
 
 const INGREDIENT_PRICES = {
@@ -19,11 +15,16 @@ const INGREDIENT_PRICES = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "LOAD_INGREDIENTS":
+    case actionTypes.LOAD_INGREDIENTS:
       return {
-        totalPrice: state.totalPrice,
+        ...state,
         ingredients: action.ingredients,
+        errorLoadingIngredients: false,
       };
+
+    case actionTypes.ERROR_LOADING_INGREDIENTS:
+      return { ...state, errorLoadingIngredients: true };
+
     case actionTypes.ADD_INGREDIENT:
       //   console.log("add ingredient");
       const updatedIngredients = {
@@ -35,6 +36,7 @@ const reducer = (state = initialState, action) => {
         state.totalPrice + INGREDIENT_PRICES[action.ingredientType];
       //   updatePurchaseState(updatedIngredients);
       return { ingredients: updatedIngredients, totalPrice: newPrice };
+
     case actionTypes.REMOVE_INGREDIENT:
       //   console.log("removeIngredient");
       if (state.ingredients[action.ingredientType] === 0) {
@@ -52,6 +54,7 @@ const reducer = (state = initialState, action) => {
         ingredients: updatedIngredientsRemove,
         totalPrice: newPriceRemove,
       };
+
     default:
       return state;
   }

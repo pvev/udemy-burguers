@@ -19,15 +19,16 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount = () => {
-    // axios
-    //   .get("https://react-my-burger-1740b.firebaseio.com/ingredients.json")
-    //   .then((results) => {
-    //     this.setState({ ingredients: results.data });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     this.setState({ error: true });
-    //   });
+    axios
+      .get("https://react-my-burger-1740b.firebaseio.com/ingredients.json")
+      .then((results) => {
+        // this.setState({ ingredients: results.data });
+        this.props.onIngredientsLoaded(results.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ error: true });
+      });
   };
 
   isPurchasable = (ingredients) => {
@@ -123,6 +124,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addIngredient(ingredientType)),
     onIngredientRemoved: (ingredientType) =>
       dispatch(removeIngredient(ingredientType)),
+    onIngredientsLoaded: (ing) =>
+      dispatch({ type: "LOAD_INGREDIENTS", ingredients: ing }),
   };
 };
 

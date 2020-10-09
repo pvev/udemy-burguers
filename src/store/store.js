@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from "redux";
-import reducer from "./reducers/burgerBuilder";
+import { reducer } from "./reducers/index.js";
 import thunk from "redux-thunk";
 
 const composeEnhancers =

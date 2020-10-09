@@ -16,6 +16,30 @@ export const purchaseBurger = (order) => {
   };
 };
 
+export const loadOrders = () => {
+  return (dispatch) => {
+    dispatch(loadOrdersStarted());
+    axios
+      .get("/orders.json")
+      .then((res) => {
+        let fetchedOrders = [];
+        fetchedOrders =
+          res.data &&
+          Object.keys(res.data).map((key) => {
+            return { ...res.data[key], id: key };
+          });
+        if (fetchedOrders && fetchedOrders.length > 0) {
+          dispatch(loadOrdersSucess(fetchedOrders));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(loadOrdersFail());
+      });
+  };
+};
+
+// purchase orders actions
 export const purchaseOrderSuccess = (id, orderData) => {
   return {
     type: actionTypes.PURCHASE_BURGUER_SUCCESS,
@@ -30,4 +54,17 @@ export const purchaseOrderFailure = (error) => {
 
 export const purchaseOrderStarted = () => {
   return { type: actionTypes.PURCHASE_BURGUER_STARTED };
+};
+
+// load orders actions
+export const loadOrdersStarted = () => {
+  return { type: actionTypes.LOAD_ORDERS_STARTED };
+};
+
+export const loadOrdersSucess = (orders) => {
+  return { type: actionTypes.LOAD_ORDERS_SUCCESS, orders: orders };
+};
+
+export const loadOrdersFail = () => {
+  return { type: actionTypes.LOAD_ORDERS_FAILED };
 };

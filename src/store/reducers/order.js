@@ -6,6 +6,7 @@ const initialState = {
   errorLoadingOrders: false,
   loadingPurchaseOrder: false,
   errorPurchasingOrder: false,
+  purchaseCompleted: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,13 +24,16 @@ const reducer = (state = initialState, action) => {
       return { ...state, loadingOrders: false, errorLoadingOrders: true };
     case actionTypes.PURCHASE_BURGUER_STARTED:
       return { ...state, loadingPurchaseOrder: true };
+    case actionTypes.PURCHASE_PROCESS_INIT:
+      return { ...state, purchaseCompleted: false };
     case actionTypes.PURCHASE_BURGUER_SUCCESS:
       const newOrder = { ...action.orderId, ...action.orderData };
-      const newOrders = { ...state.orders.concat(newOrder) };
+      const newOrders = { ...state.orders, ...newOrder };
       return {
         ...state,
         loadingPurchaseOrder: false,
         errorPurchasingOrder: false,
+        purchaseCompleted: true,
         orders: newOrders,
       };
     case actionTypes.PURCHASE_BURGUER_FAILURE:
@@ -37,6 +41,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         loadingPurchaseOrder: false,
         errorPurchasingOrder: false,
+        purchaseCompleted: false,
       };
     default:
       return state;

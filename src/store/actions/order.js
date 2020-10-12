@@ -7,10 +7,11 @@ export const purchaseBurger = (order) => {
     axios
       .post("/orders.json", order)
       .then((response) => {
-        this.props.history.push("/");
+        // this.props.history.push("/");
         dispatch(purchaseOrderSuccess(response.data, order));
       })
       .catch((error) => {
+        console.error(error);
         dispatch(purchaseOrderFailure(error));
       });
   };
@@ -54,6 +55,10 @@ export const purchaseOrderFailure = (error) => {
 
 export const purchaseOrderStarted = () => {
   return { type: actionTypes.PURCHASE_BURGUER_STARTED };
+};
+
+export const purchaseOrderInit = () => {
+  return { type: actionTypes.PURCHASE_PROCESS_INIT };
 };
 
 // load orders actions

@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes.js";
+import { updateObject } from "../utility.js";
 
 const initialState = {
   ingredients: null,
@@ -16,17 +17,16 @@ const INGREDIENT_PRICES = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOAD_INGREDIENTS:
-      return {
-        ...state,
+      return updateObject(state, {
         ingredients: action.ingredients,
         errorLoadingIngredients: false,
-      };
+        totalPrice: 4,
+      });
 
     case actionTypes.ERROR_LOADING_INGREDIENTS:
-      return { ...state, errorLoadingIngredients: true };
+      return updateObject(state, { errorLoadingIngredients: true });
 
     case actionTypes.ADD_INGREDIENT:
-      //   console.log("add ingredient");
       const updatedIngredients = {
         ...state.ingredients,
       };
@@ -34,11 +34,12 @@ const reducer = (state = initialState, action) => {
         state.ingredients[action.ingredientType] + 1;
       const newPrice =
         state.totalPrice + INGREDIENT_PRICES[action.ingredientType];
-      //   updatePurchaseState(updatedIngredients);
-      return { ingredients: updatedIngredients, totalPrice: newPrice };
+      return updateObject(
+        { ingredients: updatedIngredients },
+        { totalPrice: newPrice }
+      );
 
     case actionTypes.REMOVE_INGREDIENT:
-      //   console.log("removeIngredient");
       if (state.ingredients[action.ingredientType] === 0) {
         return;
       }
@@ -49,11 +50,12 @@ const reducer = (state = initialState, action) => {
         state.ingredients[action.ingredientType] - 1;
       const newPriceRemove =
         state.totalPrice - INGREDIENT_PRICES[action.ingredientType];
-      //   updatePurchaseState(updatedIngredientsRemove);
-      return {
-        ingredients: updatedIngredientsRemove,
-        totalPrice: newPriceRemove,
-      };
+      return updateObject(
+        {
+          ingredients: updatedIngredientsRemove,
+        },
+        { totalPrice: newPriceRemove }
+      );
 
     default:
       return state;

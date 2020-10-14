@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes.js";
+import { updateObject } from "../utility.js";
 
 const initialState = {
   orders: [],
@@ -12,37 +13,42 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOAD_ORDERS_STARTED:
-      return { ...state, loadingOrders: true, errorLoadingOrders: false };
+      return updateObject(state, {
+        loadingOrders: true,
+        errorLoadingOrders: false,
+      });
     case actionTypes.LOAD_ORDERS_SUCCESS:
-      return {
-        ...state,
+      return updateObject(state, {
         loadingOrders: false,
         errorLoadingOrders: false,
         orders: action.orders,
-      };
+      });
     case actionTypes.LOAD_ORDERS_FAILED:
-      return { ...state, loadingOrders: false, errorLoadingOrders: true };
+      return updateObject(state, {
+        loadingOrders: false,
+        errorLoadingOrders: true,
+      });
     case actionTypes.PURCHASE_BURGUER_STARTED:
-      return { ...state, loadingPurchaseOrder: true };
+      return updateObject(state, { loadingPurchaseOrder: false });
     case actionTypes.PURCHASE_PROCESS_INIT:
-      return { ...state, purchaseCompleted: false };
+      return updateObject(state, { purchaseCompleted: false });
     case actionTypes.PURCHASE_BURGUER_SUCCESS:
-      const newOrder = { ...action.orderId, ...action.orderData };
-      const newOrders = { ...state.orders, ...newOrder };
-      return {
+      const newOrder = updateObject(action.orderData, { id: action.orderId });
+      const newOrders = updateObject(state.orders, newOrder);
+      return updateObject(state, {
         ...state,
         loadingPurchaseOrder: false,
         errorPurchasingOrder: false,
         purchaseCompleted: true,
         orders: newOrders,
-      };
+      });
     case actionTypes.PURCHASE_BURGUER_FAILURE:
-      return {
-        ...state,
+      return updateObject(state, {
         loadingPurchaseOrder: false,
         errorPurchasingOrder: false,
         purchaseCompleted: false,
-      };
+      });
+
     default:
       return state;
   }

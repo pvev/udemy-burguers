@@ -10,44 +10,72 @@ const initialState = {
   purchaseCompleted: false,
 };
 
+const loadOrdersStarted = (state) => {
+  return updateObject(state, {
+    loadingOrders: true,
+    errorLoadingOrders: false,
+  });
+};
+
+const loadOrdersSuccess = (state, action) => {
+  return updateObject(state, {
+    loadingOrders: false,
+    errorLoadingOrders: false,
+    orders: action.orders,
+  });
+};
+
+const loadOrdersFailed = (state) => {
+  return updateObject(state, {
+    loadingOrders: false,
+    errorLoadingOrders: true,
+  });
+};
+
+const purchaseBurgerStarted = (state) => {
+  return updateObject(state, { loadingPurchaseOrder: false });
+};
+
+const purchaseBurgerInit = (state) => {
+  return updateObject(state, { purchaseCompleted: false });
+};
+
+const purchaseBurguerSuccess = (state, action) => {
+  const newOrder = updateObject(action.orderData, { id: action.orderId });
+  const newOrders = updateObject(state.orders, newOrder);
+  return updateObject(state, {
+    ...state,
+    loadingPurchaseOrder: false,
+    errorPurchasingOrder: false,
+    purchaseCompleted: true,
+    orders: newOrders,
+  });
+};
+
+const purchaseBurgerFailure = (state) => {
+  return updateObject(state, {
+    loadingPurchaseOrder: false,
+    errorPurchasingOrder: false,
+    purchaseCompleted: false,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOAD_ORDERS_STARTED:
-      return updateObject(state, {
-        loadingOrders: true,
-        errorLoadingOrders: false,
-      });
+      return loadOrdersStarted(state);
     case actionTypes.LOAD_ORDERS_SUCCESS:
-      return updateObject(state, {
-        loadingOrders: false,
-        errorLoadingOrders: false,
-        orders: action.orders,
-      });
+      return loadOrdersSuccess(state, action);
     case actionTypes.LOAD_ORDERS_FAILED:
-      return updateObject(state, {
-        loadingOrders: false,
-        errorLoadingOrders: true,
-      });
+      return loadOrdersFailed(state);
     case actionTypes.PURCHASE_BURGUER_STARTED:
-      return updateObject(state, { loadingPurchaseOrder: false });
+      return purchaseBurgerStarted(state);
     case actionTypes.PURCHASE_PROCESS_INIT:
-      return updateObject(state, { purchaseCompleted: false });
+      return purchaseBurgerInit(state);
     case actionTypes.PURCHASE_BURGUER_SUCCESS:
-      const newOrder = updateObject(action.orderData, { id: action.orderId });
-      const newOrders = updateObject(state.orders, newOrder);
-      return updateObject(state, {
-        ...state,
-        loadingPurchaseOrder: false,
-        errorPurchasingOrder: false,
-        purchaseCompleted: true,
-        orders: newOrders,
-      });
+      return purchaseBurguerSuccess(state, action);
     case actionTypes.PURCHASE_BURGUER_FAILURE:
-      return updateObject(state, {
-        loadingPurchaseOrder: false,
-        errorPurchasingOrder: false,
-        purchaseCompleted: false,
-      });
+      return purchaseBurgerFailure(state, action);
 
     default:
       return state;

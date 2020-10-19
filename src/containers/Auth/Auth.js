@@ -5,6 +5,8 @@ import Input from "../../components/UI/Forms/Input";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { connect } from "react-redux";
 
+import { auth } from "../../store/actions";
+
 import classes from "./Auth.module.css";
 
 class Auth extends Component {
@@ -50,8 +52,8 @@ class Auth extends Component {
     event.preventDefault();
     this.setState({ loadingAuthRequest: true });
     const authInfo = {
-      zipCode: this.state.authForm.email.value,
-      country: this.state.authForm.password.value,
+      email: this.state.authForm.email.value,
+      password: this.state.authForm.password.value,
     };
 
     this.props.onAuthFormSubmit(authInfo);
@@ -129,10 +131,12 @@ class Auth extends Component {
   }
 }
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => {
+  return { loadingAuthRequest: state.auth.loadingAuthRequest };
+};
 
 const mapDispatchToProps = (dispatch) => {
-  // onAuthFormSubmit: (dispatch) => authFormSubmit();
+  return { onAuthFormSubmit: (authData) => dispatch(auth(authData)) };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

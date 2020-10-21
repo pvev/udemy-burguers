@@ -44,18 +44,17 @@ class Auth extends Component {
         },
       },
     },
-    loadingAuthRequest: false,
+    isSignIn: false,
     formValid: false,
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({ loadingAuthRequest: true });
     const authInfo = {
       email: this.state.authForm.email.value,
       password: this.state.authForm.password.value,
+      isSignIn: this.state.isSignIn,
     };
-
     this.props.onAuthFormSubmit(authInfo);
   };
 
@@ -94,6 +93,13 @@ class Auth extends Component {
     newStateAuthForm[inputIdentifier] = updatedFormElement;
     this.setState({ authForm: newStateAuthForm, formValid: formValidty });
   };
+
+  switchAuthModeHandler = () => {
+    console.log("chupalo jueputa");
+    this.setState((prevState) => {
+      return { isSignIn: !prevState.isSignIn };
+    });
+  };
   render() {
     let form = (
       <form className={classes.Form} onSubmit={this.handleSubmit}>
@@ -113,7 +119,7 @@ class Auth extends Component {
           type="submit"
           disabled={!this.state.formValid}
         >
-          SEND
+          {this.state.isSignIn ? "SIGN-IN" : "SIGN-UP"}
         </Button>
       </form>
     );
@@ -122,17 +128,37 @@ class Auth extends Component {
       form = <Spinner></Spinner>;
     }
 
+    let errorAuthenticating = null;
+
+    if (this.props.errorAuthenticating) {
+      errorAuthenticating = (
+        <h3 className={classes.AuthError}>
+          {this.props.errorAuthenticatingMsg}
+        </h3>
+      );
+    }
+
     return (
       <div className={classes.Auth}>
         <h4>Enter your credentials</h4>
+        {errorAuthenticating}
         {form}
+        <Button btnType="Danger" clicked={this.switchAuthModeHandler}>
+          {this.state.isSignIn
+            ? "Don't have an account yet? SWITCH TO SIGN UP"
+            : "Already have an account? SWITCH TO SIGN IN"}
+        </Button>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { loadingAuthRequest: state.auth.loadingAuthRequest };
+  return {
+    loadingAuthRequest: state.auth.loadingAuthRequest,
+    errorAuthenticating: state.auth.errorAuthenticating,
+    errorAuthenticatingMsg: state.auth.errorAuthenticatingMsg,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

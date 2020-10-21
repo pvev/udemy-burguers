@@ -18,11 +18,19 @@ export const authStarted = () => {
 
 export const auth = (authData) => {
   console.log(authData);
-  authData = {...authData, returnSecureToken: true};
+  authData = { ...authData, returnSecureToken: true };
+  let url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
+
+  if (authData.isSignIn) {
+    url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
+  }
+
+  const key = "AIzaSyABJV_ZRYT44SAjlxAKLNWdJO06XfMRZI8";
   return (dispatch) => {
     dispatch(authStarted());
     axios
-      .post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyABJV_ZRYT44SAjlxAKLNWdJO06XfMRZI8", authData)
+      .post(url + key, authData)
       .then((response) => {
         console.log(response.data);
         dispatch(authSuccess(response.data, authData));

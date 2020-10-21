@@ -26,7 +26,7 @@ export const auth = (authData) => {
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
   }
 
-  const key = "AIzaSyABJV_ZRYT44SAjlxAKLNWdJO06XfMRZI8";
+  const key = "";
   return (dispatch) => {
     dispatch(authStarted());
     axios

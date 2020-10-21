@@ -2,6 +2,8 @@ import * as actionTypes from "../actions/actionTypes.js";
 import { updateObject } from "../utility.js";
 
 const initialState = {
+  token: null,
+  userId: null,
   loadingAuthRequest: false,
   errorAuthenticating: false,
   errorAuthenticatingMsg: "",
@@ -18,14 +20,15 @@ const authFailed = (state, error) => {
   return updateObject(state, {
     loadingAuthRequest: false,
     errorAuthenticating: true,
-    errorAuthenticatingMsg: error.response.data.error.message,
+    errorAuthenticatingMsg: error.response.data.error.message || null,
   });
 };
 
-const authSuccess = (state, error) => {
+const authSuccess = (state, authData) => {
   return updateObject(state, {
     loadingAuthRequest: false,
     errorAuthenticating: false,
+    token: authData.idToken || null,
   });
 };
 
@@ -36,7 +39,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.AUTH_FAILED:
       return authFailed(state, action.error);
     case actionTypes.AUTH_SUCCESS:
-      return authSuccess(state);
+      return authSuccess(state, action.authData);
     default:
       return state;
   }

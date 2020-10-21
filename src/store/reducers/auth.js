@@ -29,6 +29,7 @@ const authSuccess = (state, authData) => {
     loadingAuthRequest: false,
     errorAuthenticating: false,
     token: authData.idToken || null,
+    userId: authData.localId || null,
   });
 };
 

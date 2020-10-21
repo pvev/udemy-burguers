@@ -20,7 +20,7 @@ const authFailed = (state, error) => {
   return updateObject(state, {
     loadingAuthRequest: false,
     errorAuthenticating: true,
-    errorAuthenticatingMsg: error.response.data.error.message || null,
+    errorAuthenticatingMsg: error || null,
   });
 };
 
@@ -33,6 +33,13 @@ const authSuccess = (state, authData) => {
   });
 };
 
+const unauthenticate = (state) => {
+  return updateObject(state, {
+    token: null,
+    userId: null,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_STARTED:
@@ -41,6 +48,8 @@ const reducer = (state = initialState, action) => {
       return authFailed(state, action.error);
     case actionTypes.AUTH_SUCCESS:
       return authSuccess(state, action.authData);
+    case actionTypes.AUTH_UNAUTHENTICATE:
+      return unauthenticate(state);
     default:
       return state;
   }

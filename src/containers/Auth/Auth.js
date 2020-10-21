@@ -95,7 +95,6 @@ class Auth extends Component {
   };
 
   switchAuthModeHandler = () => {
-    console.log("chupalo jueputa");
     this.setState((prevState) => {
       return { isSignIn: !prevState.isSignIn };
     });

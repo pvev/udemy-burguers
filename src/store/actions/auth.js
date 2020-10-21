@@ -1,19 +1,29 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
 
-export const authSuccess = (authData) => {
+const authSuccess = (authData) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     authData: authData,
   };
 };
 
-export const authFailure = (error) => {
+const authFailure = (error) => {
   return { type: actionTypes.AUTH_FAILED, error: error };
 };
 
-export const authStarted = () => {
+const authStarted = () => {
   return { type: actionTypes.AUTH_STARTED };
+};
+
+const unauthenticate = (authExpiration) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch({
+        type: actionTypes.AUTH_UNAUTHENTICATE,
+      });
+    }, authExpiration * 1000);
+  };
 };
 
 export const auth = (authData) => {
@@ -34,10 +44,11 @@ export const auth = (authData) => {
       .then((response) => {
         console.log(response.data);
         dispatch(authSuccess(response.data, authData));
+        dispatch(unauthenticate(response.data.expiresIn));
       })
       .catch((error) => {
         console.error(error);
-        dispatch(authFailure(error));
+        dispatch(authFailure(error.response.data.error.message || error));
       });
   };
 };

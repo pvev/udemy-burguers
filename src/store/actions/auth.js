@@ -16,12 +16,16 @@ const authStarted = () => {
   return { type: actionTypes.AUTH_STARTED };
 };
 
+export const logout = () => {
+  return {
+    type: actionTypes.AUTH_UNAUTHENTICATE,
+  };
+};
+
 const unauthenticate = (authExpiration) => {
   return (dispatch) => {
     setTimeout(() => {
-      dispatch({
-        type: actionTypes.AUTH_UNAUTHENTICATE,
-      });
+      dispatch(logout());
     }, authExpiration * 1000);
   };
 };
@@ -36,7 +40,7 @@ export const auth = (authData) => {
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
   }
 
-  const key = "";
+  const key = "AIzaSyABJV_ZRYT44SAjlxAKLNWdJO06XfMRZI8";
   return (dispatch) => {
     dispatch(authStarted());
     axios

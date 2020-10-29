@@ -1,11 +1,11 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
 
-export const purchaseBurger = (order) => {
+export const purchaseBurger = (order, token) => {
   return (dispatch) => {
     dispatch(purchaseOrderStarted());
     axios
-      .post("/orders.json", order)
+      .post("/orders.json?auth=" + token, order)
       .then((response) => {
         // this.props.history.push("/");
         dispatch(purchaseOrderSuccess(response.data, order));
@@ -17,11 +17,11 @@ export const purchaseBurger = (order) => {
   };
 };
 
-export const loadOrders = () => {
+export const loadOrders = (token) => {
   return (dispatch) => {
     dispatch(loadOrdersStarted());
     axios
-      .get("/orders.json")
+      .get("/orders.json?auth=" + token)
       .then((res) => {
         let fetchedOrders = [];
         fetchedOrders =

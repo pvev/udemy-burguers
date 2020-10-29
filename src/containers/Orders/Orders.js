@@ -12,13 +12,8 @@ import { connect } from "react-redux";
 import { loadOrders } from "../../store/actions";
 
 class Orders extends Component {
-  state = {
-    orders: [],
-    loading: true,
-  };
-
   componentDidMount = () => {
-    this.props.onLoadOrders();
+    this.props.onLoadOrders(this.props.token);
   };
   render() {
     let orderList =
@@ -49,12 +44,13 @@ const mapStateToProps = (state) => {
     orders: state.orders.orders,
     loadingOrders: state.orders.loadingOrders,
     errorLoadingOrders: state.orders.errorLoadingOrders,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadOrders: () => dispatch(loadOrders()),
+    onLoadOrders: (token) => dispatch(loadOrders(token)),
   };
 };
 

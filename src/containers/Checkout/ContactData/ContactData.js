@@ -127,7 +127,7 @@ class ContactData extends Component {
       deliveryMethod: this.state.orderForm.deliveryMethod.value,
     };
 
-    this.props.onOrderFormSubmit(order);
+    this.props.onOrderFormSubmit(order, this.props.token);
   };
 
   checkValidity(value, rules) {
@@ -220,12 +220,13 @@ const mapStateToProps = (state) => {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     loadingPurchaseOrder: state.orders.loadingPurchaseOrder,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderFormSubmit: (order) => dispatch(purchaseBurger(order)),
+    onOrderFormSubmit: (order, token) => dispatch(purchaseBurger(order, token)),
   };
 };
 

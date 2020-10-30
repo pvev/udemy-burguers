@@ -5,9 +5,10 @@ import Input from "../../components/UI/Forms/Input";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { connect } from "react-redux";
 
-import { auth } from "../../store/actions";
+import { auth, logout } from "../../store/actions";
 
 import classes from "./Auth.module.css";
+import { Redirect } from "react-router-dom";
 
 class Auth extends Component {
   state = {
@@ -46,6 +47,14 @@ class Auth extends Component {
     },
     isSignIn: false,
     formValid: false,
+    logout: false,
+  };
+
+  componentDidMount = () => {
+    if (this.props.history.location.pathname === "/logout") {
+      this.props.onLogout();
+      this.setState({ ...this.state, logout: true });
+    }
   };
 
   handleSubmit = (event) => {
@@ -100,6 +109,10 @@ class Auth extends Component {
     });
   };
   render() {
+    debugger;
+    if (this.state.logout) {
+      return <Redirect to="/"></Redirect>;
+    }
     let form = (
       <form className={classes.Form} onSubmit={this.handleSubmit}>
         {Object.keys(this.state.authForm).map((key, i) => {
@@ -161,7 +174,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return { onAuthFormSubmit: (authData) => dispatch(auth(authData)) };
+  return {
+    onAuthFormSubmit: (authData) => dispatch(auth(authData)),
+    onLogout: () => dispatch(logout()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

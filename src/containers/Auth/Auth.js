@@ -19,7 +19,7 @@ class Auth extends Component {
           type: "email",
           placeholder: "Email",
         },
-        value: "",
+        value: "test@test.com",
         validation: {
           required: true,
           valid: false,
@@ -35,7 +35,7 @@ class Auth extends Component {
           type: "password",
           placeholder: "Password",
         },
-        value: "",
+        value: "testuser",
         validation: {
           required: true,
           valid: false,
@@ -45,15 +45,13 @@ class Auth extends Component {
         },
       },
     },
-    isSignIn: false,
-    formValid: false,
-    logout: false,
+    isSignIn: true,
+    formValid: true,
   };
 
   componentDidMount = () => {
-    if (this.props.history.location.pathname === "/logout") {
+    if (this.props.isAuthenticated) {
       this.props.onLogout();
-      this.setState({ ...this.state, logout: true });
     }
   };
 
@@ -109,8 +107,7 @@ class Auth extends Component {
     });
   };
   render() {
-    debugger;
-    if (this.state.logout) {
+    if (this.props.isAuthenticated) {
       return <Redirect to="/"></Redirect>;
     }
     let form = (
@@ -170,6 +167,7 @@ const mapStateToProps = (state) => {
     loadingAuthRequest: state.auth.loadingAuthRequest,
     errorAuthenticating: state.auth.errorAuthenticating,
     errorAuthenticatingMsg: state.auth.errorAuthenticatingMsg,
+    isAuthenticated: state.auth.token !== null,
   };
 };
 

@@ -13,11 +13,11 @@ function App() {
     <div>
       <Layout>
         <Switch>
+          <Route path="/" exact component={BurgerBuilder}></Route>
           <Route path="/checkout" component={Checkout}></Route>
           <Route path="/orders" component={Orders}></Route>
           <Route path="/auth" component={Auth}></Route>
           <Route path="/logout" component={Auth}></Route>
-          <Route path="/" exact component={BurgerBuilder}></Route>
         </Switch>
       </Layout>
     </div>

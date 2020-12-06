@@ -49,12 +49,6 @@ class Auth extends Component {
     formValid: true,
   };
 
-  componentDidMount = () => {
-    if (this.props.isAuthenticated) {
-      this.props.onLogout();
-    }
-  };
-
   handleSubmit = (event) => {
     event.preventDefault();
     const authInfo = {
@@ -106,9 +100,28 @@ class Auth extends Component {
       return { isSignIn: !prevState.isSignIn };
     });
   };
+
+  buildingBurger = (ingredients) => {
+    if (!ingredients) {
+      return false;
+    }
+    const sum1 = Object.keys(ingredients)
+      .map((igKey) => {
+        return ingredients[igKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    return sum1 > 0;
+  };
+
   render() {
     if (this.props.isAuthenticated) {
-      return <Redirect to="/"></Redirect>;
+      let redirectPath = "/";
+      if (this.buildingBurger(this.props.ingredients)) {
+        redirectPath = "/checkout";
+      }
+      return <Redirect to={redirectPath}></Redirect>;
     }
     let form = (
       <form className={classes.Form} onSubmit={this.handleSubmit}>
@@ -168,6 +181,7 @@ const mapStateToProps = (state) => {
     errorAuthenticating: state.auth.errorAuthenticating,
     errorAuthenticatingMsg: state.auth.errorAuthenticatingMsg,
     isAuthenticated: state.auth.token !== null,
+    ingredients: state.burgerBuilder.ingredients,
   };
 };
 

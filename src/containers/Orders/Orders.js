@@ -13,7 +13,7 @@ import { loadOrders } from "../../store/actions";
 
 class Orders extends Component {
   componentDidMount = () => {
-    this.props.onLoadOrders(this.props.token);
+    this.props.onLoadOrders(this.props.token, this.props.userId);
   };
   render() {
     let orderList =
@@ -45,12 +45,13 @@ const mapStateToProps = (state) => {
     loadingOrders: state.orders.loadingOrders,
     errorLoadingOrders: state.orders.errorLoadingOrders,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadOrders: (token) => dispatch(loadOrders(token)),
+    onLoadOrders: (token, userId) => dispatch(loadOrders(token, userId)),
   };
 };
 

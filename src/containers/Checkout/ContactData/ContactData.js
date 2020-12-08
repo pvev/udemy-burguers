@@ -125,6 +125,7 @@ class ContactData extends Component {
         email: this.state.orderForm.email.value,
       },
       deliveryMethod: this.state.orderForm.deliveryMethod.value,
+      userId: this.props.userId,
     };
 
     this.props.onOrderFormSubmit(order, this.props.token);
@@ -221,6 +222,7 @@ const mapStateToProps = (state) => {
     totalPrice: state.burgerBuilder.totalPrice,
     loadingPurchaseOrder: state.orders.loadingPurchaseOrder,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 

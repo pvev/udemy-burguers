@@ -33,7 +33,7 @@ const loadOrdersFailed = (state) => {
 };
 
 const purchaseBurgerStarted = (state) => {
-  return updateObject(state, { loadingPurchaseOrder: false });
+  return updateObject(state, { loadingPurchaseOrder: true });
 };
 
 const purchaseBurgerInit = (state) => {

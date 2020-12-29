@@ -5,7 +5,7 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 
 const navigationItems = (props) => {
   return (
-    <ul className={classes.NavigationItems}>
+    <ul className={classes.NavigationItems} onClick={props.closeSidebar}>
       <NavigationItem link="/" exact>
         Burger Builder
       </NavigationItem>

@@ -3,7 +3,6 @@ import React from "react";
 import classes from "./Order.module.css";
 
 const Order = (props) => {
-  console.log(props.order);
   return (
     <div className={classes.Order}>
       {props.order.ingredients &&

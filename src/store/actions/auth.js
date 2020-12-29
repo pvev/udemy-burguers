@@ -34,7 +34,6 @@ const unauthenticate = (authExpiration) => {
 };
 
 export const auth = (authData) => {
-  console.log(authData);
   authData = { ...authData, returnSecureToken: true };
   let url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
 
@@ -49,7 +48,6 @@ export const auth = (authData) => {
     axios
       .post(url + key, authData)
       .then((response) => {
-        console.log(response.data);
         const expirationDate = new Date(
           new Date().getTime() + response.data.expiresIn * 1000
         );

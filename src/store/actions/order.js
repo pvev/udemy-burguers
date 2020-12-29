@@ -35,7 +35,6 @@ export const loadOrders = (token, userId) => {
         }
       })
       .catch((error) => {
-        console.log(error);
         dispatch(loadOrdersFail());
       });
   };

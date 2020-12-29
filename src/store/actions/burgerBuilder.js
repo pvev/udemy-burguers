@@ -37,7 +37,6 @@ export const loadIngredients = () => {
         dispatch(loadSyncIngredients(results.data));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(errorLoadingIngredients());
       });
   };

@@ -11,6 +11,8 @@ import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
 import { purchaseBurger } from "../../../store/actions";
 
+import { updateObject } from "../../../shared/utility.js";
+
 import { connect } from "react-redux";
 
 class ContactData extends Component {
@@ -41,6 +43,7 @@ class ContactData extends Component {
           required: true,
           valid: false,
           touched: false,
+          isEmail: true,
           errorMessage:
             "Please, enter a valid Email in the format name@domain.xyz",
         },
@@ -163,14 +166,22 @@ class ContactData extends Component {
   }
 
   changeHandler = (event, inputIdentifier) => {
-    const newStateOrderForm = { ...this.state.orderForm };
-    const updatedFormElement = { ...newStateOrderForm[inputIdentifier] };
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.validation.touched = true;
-
-    updatedFormElement.validation.valid = this.checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation
+    const newStateOrderForm = updateObject(this.state.orderForm, {});
+    const updatedFormElement = updateObject(
+      this.state.orderForm[inputIdentifier],
+      {
+        value: event.target.value,
+        validation: updateObject(
+          this.state.orderForm[inputIdentifier].validation,
+          {
+            touched: true,
+            valid: this.checkValidity(
+              event.target.value,
+              this.state.orderForm[inputIdentifier].validation
+            ),
+          }
+        ),
+      }
     );
     // verify the validity of the whole form
     let formValidty = Object.keys(this.state.orderForm).every((key) => {

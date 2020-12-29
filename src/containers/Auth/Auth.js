@@ -10,6 +10,8 @@ import { auth, logout } from "../../store/actions";
 import classes from "./Auth.module.css";
 import { Redirect } from "react-router-dom";
 
+import { updateObject, checkValidity } from "../../shared/utility.js";
+
 class Auth extends Component {
   state = {
     authForm: {
@@ -59,33 +61,18 @@ class Auth extends Component {
     this.props.onAuthFormSubmit(authInfo);
   };
 
-  checkValidity = (value, rules) => {
-    let isValid = true;
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  };
-
   changeHandler = (event, inputIdentifier) => {
-    const newStateAuthForm = { ...this.state.authForm };
-    const updatedFormElement = { ...newStateAuthForm[inputIdentifier] };
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.validation.touched = true;
-
-    updatedFormElement.validation.valid = this.checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation
-    );
+    const newStateAuthForm = updateObject(this.state.authForm, {});
+    const updatedFormElement = updateObject(newStateAuthForm[inputIdentifier], {
+      value: event.target.value,
+      validation: updateObject(newStateAuthForm[inputIdentifier].validation, {
+        touched: true,
+        valid: checkValidity(
+          event.target.value,
+          newStateAuthForm[inputIdentifier].validation
+        ),
+      }),
+    });
     // verify the validity of the whole form
     let formValidty = Object.keys(this.state.authForm).every((key) => {
       return this.state.authForm[key].validation.valid;

@@ -17,11 +17,8 @@ const authStarted = () => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expirationDate");
-  localStorage.removeItem("userId");
   return {
-    type: actionTypes.AUTH_UNAUTHENTICATE,
+    type: actionTypes.AUTH_INIT_UNAUTHENTICATE,
   };
 };
 

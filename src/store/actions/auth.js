@@ -40,23 +40,5 @@ export const auth = (authData) => {
 };
 
 export const checkAuthStatus = () => {
-  return (dispatch) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem("expirationDate"));
-      if (expirationDate > new Date()) {
-        const userId = localStorage.getItem("userId");
-        dispatch(authSuccess({ localId: userId, idToken: token }));
-        dispatch(
-          unauthenticate(
-            (expirationDate.getTime() - new Date().getTime()) / 1000
-          )
-        );
-      } else {
-        dispatch(logout());
-      }
-    }
-  };
+  return { type: actionTypes.CHECK_AUTH_STATUS };
 };

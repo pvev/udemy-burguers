@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 
 import createSagaMiddleware from "redux-saga";
 
-import { watchAuth, watchBurgerBuilder } from "../sagas/";
+import { watchAuth, watchBurgerBuilder, watchOrders } from "../sagas/";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,5 +20,6 @@ const store = createStore(
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchBurgerBuilder);
+sagaMiddleware.run(watchOrders);
 
 export default store;

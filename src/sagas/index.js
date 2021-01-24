@@ -8,6 +8,8 @@ import {
 
 import { loadIngredientsSaga } from "./burgerBuilder";
 
+import { purchaseBurgerSaga, loadOrdersSaga } from "./order";
+
 import * as actionTypes from "../store/actions/actionTypes";
 
 export function* watchAuth() {
@@ -19,4 +21,9 @@ export function* watchAuth() {
 
 export function* watchBurgerBuilder() {
   yield takeEvery(actionTypes.START_LOADING_INGREDIENTS, loadIngredientsSaga);
+}
+
+export function* watchOrders() {
+  yield takeEvery(actionTypes.PURCHASE_BURGUER, purchaseBurgerSaga);
+  yield takeEvery(actionTypes.LOAD_ORDERS, loadOrdersSaga);
 }

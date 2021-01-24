@@ -6,7 +6,17 @@ export {
   errorLoadingIngredients,
 } from "./burgerBuilder";
 
-export { purchaseBurger, loadOrders, purchaseOrderInit } from "./order";
+export {
+  purchaseBurger,
+  loadOrders,
+  purchaseOrderInit,
+  purchaseOrderStarted,
+  purchaseOrderFailure,
+  purchaseOrderSuccess,
+  loadOrdersStarted,
+  loadOrdersFail,
+  loadOrdersSucess,
+} from "./order";
 
 export {
   auth,

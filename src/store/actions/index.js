@@ -2,6 +2,8 @@ export {
   addIngredient,
   removeIngredient,
   loadIngredients,
+  loadSyncIngredients,
+  errorLoadingIngredients,
 } from "./burgerBuilder";
 
 export { purchaseBurger, loadOrders, purchaseOrderInit } from "./order";

@@ -1,7 +1,5 @@
 import * as actionTypes from "./actionTypes";
 
-import axios from "../../axios-orders";
-
 export const addIngredient = (name) => {
   return {
     type: actionTypes.ADD_INGREDIENT,
@@ -28,16 +26,5 @@ export const errorLoadingIngredients = () => {
 };
 
 export const loadIngredients = () => {
-  return (dispatch) => {
-    axios
-      .get("https://react-my-burger-1740b.firebaseio.com/ingredients.json")
-      .then((results) => {
-        // this.setState({ ingredients: results.data });
-        // this.props.onIngredientsLoaded(results.data);
-        dispatch(loadSyncIngredients(results.data));
-      })
-      .catch((error) => {
-        dispatch(errorLoadingIngredients());
-      });
-  };
+  return { type: actionTypes.START_LOADING_INGREDIENTS };
 };
